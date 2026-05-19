@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tic-Tac-Toe</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #e2e8f0;
+  }
+  h1 { margin: 0 0 8px; font-weight: 600; letter-spacing: 1px; }
+  #status {
+    margin: 8px 0 20px;
+    font-size: 18px;
+    min-height: 26px;
+    color: #94a3b8;
+  }
+  #board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 8px;
+    background: #334155;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .cell {
+    background: #1e293b;
+    border: none;
+    border-radius: 8px;
+    font-size: 48px;
+    font-weight: 700;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.05s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cell:hover:not(:disabled) { background: #273449; }
+  .cell:active:not(:disabled) { transform: scale(0.97); }
+  .cell.x { color: #60a5fa; }
+  .cell.o { color: #f472b6; }
+  .cell.win { background: #14532d; color: #bbf7d0; }
+  .cell:disabled { cursor: default; }
+  #reset {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 15px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  #reset:hover { background: #2563eb; }
+  #score {
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+    font-size: 15px;
+    color: #94a3b8;
+  }
+  #score span b { color: #e2e8f0; }
+</style>
+</head>
+<body>
+  <h1>Tic-Tac-Toe</h1>
+  <div id="status">X's turn</div>
+  <div id="board"></div>
+  <button id="reset">New Game</button>
+  <div id="score">
+    <span>X: <b id="scoreX">0</b></span>
+    <span>O: <b id="scoreO">0</b></span>
+    <span>Draws: <b id="scoreD">0</b></span>
+  </div>
+
+<script>
+  const board = document.getElementById('board');
+  const status = document.getElementById('status');
+  const resetBtn = document.getElementById('reset');
+  const scoreEls = { X: document.getElementById('scoreX'), O: document.getElementById('scoreO'), D: document.getElementById('scoreD') };
+  const scores = { X: 0, O: 0, D: 0 };
+
+  const LINES = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  let state, current, gameOver;
+  const cells = [];
+
+  function init() {
+    state = Array(9).fill('');
+    current = 'X';
+    gameOver = false;
+    board.innerHTML = '';
+    cells.length = 0;
+    for (let i = 0; i < 9; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'cell';
+      btn.addEventListener('click', () => play(i));
+      board.appendChild(btn);
+      cells.push(btn);
+    }
+    status.textContent = "X's turn";
+  }
+
+  function play(i) {
+    if (gameOver || state[i]) return;
+    state[i] = current;
+    cells[i].textContent = current;
+    cells[i].classList.add(current.toLowerCase());
+    cells[i].disabled = true;
+
+    const winLine = checkWin(current);
+    if (winLine) {
+      gameOver = true;
+      winLine.forEach(idx => cells[idx].classList.add('win'));
+      cells.forEach(c => c.disabled = true);
+      status.textContent = `${current} wins!`;
+      scores[current]++;
+      scoreEls[current].textContent = scores[current];
+      return;
+    }
+    if (state.every(v => v)) {
+      gameOver = true;
+      status.textContent = "It's a draw.";
+      scores.D++;
+      scoreEls.D.textContent = scores.D;
+      return;
+    }
+    current = current === 'X' ? 'O' : 'X';
+    status.textContent = `${current}'s turn`;
+  }
+
+  function checkWin(p) {
+    return LINES.find(line => line.every(i => state[i] === p)) || null;
+  }
+
+  resetBtn.addEventListener('click', init);
+  init();
+</script>
+</body>
+</html>
