@@ -13,6 +13,10 @@ A collection of retro-style browser games built with vanilla HTML5, CSS, and Jav
 
 No local server or build step required.
 
+## Development Commands
+
+**There are no build, lint, or test commands.** Each game is a single HTML file designed to run directly in a browser — no server, bundler, or test framework needed. Verification is manual browser testing only.
+
 ## Architecture Overview
 
 ### Tic-Tac-Toe (`tic-tac-toe.html`)
@@ -104,7 +108,20 @@ git push origin master
 
 **Remote:** `origin` → `https://github.com/ashlynl8/retro-browser-games.git`
 
+## Testing & Verification
+
+Manual browser testing is the only verification needed:
+- Open the `.html` file directly in a browser (double-click or drag into browser tab)
+- Test the happy path and edge cases (e.g., win, lose, restart)
+- Check browser console for errors (F12 → Console tab)
+- No crashes or console errors = tests pass
+
 ## Common Tasks
+
+**Important: Web Audio Setup (Shooter)**
+- `AudioContext` is created on first user click (browser autoplay policy)
+- All `sfx.event()` calls must come *after* initial user interaction
+- If audio doesn't play, check that the user has clicked before the SFX call
 
 **Adding a new feature to Shooter:**
 1. Identify which section: sprite definitions (lines ~80–120), entity logic (~250–400), state machine (~400–500), or rendering (~600–end)
