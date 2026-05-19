@@ -83,7 +83,9 @@ No local server or build step required.
 
 ## Development & Git Workflow
 
-**Standard workflow for changes:**
+**CRITICAL: Commit and push regularly** — After each meaningful change or completed task, commit to Git with a clean message and push to GitHub immediately. This ensures we never lose work and can always revert if needed.
+
+**Standard workflow for each change:**
 
 ```bash
 # Make changes to a game file
@@ -97,7 +99,7 @@ Detailed explanation if needed:
 - What changed
 - Why it changed"
 
-# Push to GitHub
+# Push to GitHub immediately
 git push origin master
 ```
 
@@ -105,6 +107,8 @@ git push origin master
 - First line: imperative, under 50 chars (e.g., "Add runner enemy type", "Fix collision detection")
 - Blank line, then detailed explanation (bullets OK for multiple changes)
 - Each game is committed separately; UI/gameplay changes are grouped by feature
+
+**Golden rule:** Always push after committing. A local commit is not backed up until it reaches GitHub.
 
 **Remote:** `origin` → `https://github.com/ashlynl8/retro-browser-games.git`
 
