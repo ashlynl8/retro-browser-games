@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A collection of retro-style browser games built with vanilla HTML5, CSS, and JavaScript. Each game is a self-contained HTML file with embedded CSS and JavaScript — no build process, no dependencies. Open any `.html` file directly in a web browser to play.
 
+## Model Configuration
+
+Default model for this project: **Haiku 4.5**. Set via `/model` or in settings for consistency.
+
 ## Running the Games
 
 - **Tic-Tac-Toe**: Open `tic-tac-toe.html` in a browser
